@@ -14,6 +14,8 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         //
         'http://127.0.0.1:8000/apiregisteruser',
+        'http://127.0.0.1:8000/apiregisterbyphone',
+        'http://127.0.0.1:8000/apiloginbyphone',
         'http://127.0.0.1:8000/apiloginuser',
         'http://127.0.0.1:8000/apiloginbytoken',
         'http://127.0.0.1:8000/apigetcategory',

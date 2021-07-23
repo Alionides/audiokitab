@@ -30,6 +30,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('/', [SiteController::class, 'index'])->name('homepage');
 Route::post('apiregisteruser', [ApiCustomerUserController::class, 'apiRegisterUser']);
+Route::post('apiregisterbyphone', [ApiCustomerUserController::class, 'apiRegisterByPhone']);
+Route::post('apiloginbyphone', [ApiCustomerUserController::class, 'apiLoginByPhone']);
 Route::post('apiloginuser', [ApiCustomerUserController::class, 'apiLoginUser']);
 Route::post('apiloginbytoken', [ApiCustomerUserController::class, 'apiLoginByToken']);
 Route::post('apigetcategory', [ApiCategoryController::class, 'apiGetCategory']);
