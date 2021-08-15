@@ -29,6 +29,15 @@ class ApiBookController extends Controller
                $catarr[]=['id'=>$cat->id,'parent_id'=>$cat->parent_id,'title_az'=>$cat->title_az];
             }
             $book = [];
+            $chapters = json_decode($data->chapters);
+            if (is_array($chapters)){
+                $count = count($chapters);
+                if ($count <= 3) {
+                    $newarr = array($chapters);
+                }else{
+                    $newarr = array_chunk($chapters, 3);
+                }
+            }
             
             $book['id'] = $data->id;
             $book['title_az'] = $data->title_az;
@@ -36,6 +45,7 @@ class ApiBookController extends Controller
             $book['image'] = $data->image;
             $book['price'] = $data->price;
             $book['categories'] = $catarr; //$data->categories;
+            $book['chapters'] = $newarr; 
             $book['narrator'] = $data->narrator;
             $book['author'] = $data->author;
             $book['author_id'] = $data->author_id;
