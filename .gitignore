@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/phpMyAdmin1989
 /storage/*.key
 /vendor
 .env
@@ -12,3 +13,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /app/Http/Middleware/VerifyCsrfToken.php
+

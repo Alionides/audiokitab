@@ -95,6 +95,55 @@
                                 </div>
                                 
                             @endforeach
+                            <!-- dynamic chapter -->
+                            <div class="form-group  col-md-12 ">
+                                <div class="table-responsive">                                        
+                                    <span id="result"></span>
+                                    <table class="table table-bordered table-striped" id="user_table">
+                                        <thead>
+                                            <tr>
+                                                <th width="30%">Fəsilin adı</th>
+                                                <th width="30%">Başlanğıc tarixi</th>
+                                                <th width="30%">Bitmə tarixi</th>
+                                                <th width="10%">Fəaliyyət</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                      
+                                        </tbody>
+                                        <tfoot>
+                                            @php                                   
+                                                $chapters = json_decode($dataTypeContent->chapters);
+                                                if (is_array($chapters)){
+                                                    $count = count($chapters);
+                                                    if ($count <= 3) {
+                                                        $newarr = array($chapters);
+                                                    }else{
+                                                        $newarr = array_chunk($chapters, 3);
+                                                    }
+                                                    
+                                                    //print_r($newarr);
+                                                }
+                                                
+                                                
+                                                
+                                            @endphp
+                                            
+                                                @if (is_array($chapters))
+                                                @foreach($newarr as $key) 
+                                                <tr>     
+                                                    @foreach ($key as $a => $item)
+                                                        <td><input value="{{$item}}" type="text" name="chapters[]" class="form-control" /></td>
+                                                    @endforeach 
+                                                        <td><button type="button" name="remove" id="" class="btn btn-danger remove">Sil</button></td>                                                          
+                                                </tr>                                           
+                                                @endforeach
+                                                @endif 
+                                                
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- dynamic chapter end -->
                             <!-- audiokitab -->                            
                             
                                 @php                                   
@@ -109,7 +158,8 @@
                                 @endforeach
                             </div>                            
 
-                        </div><!-- panel-body -->
+                        </div>
+                        <!-- panel-body -->
 
                         <div class="panel-footer">
                             @section('submit-buttons')
@@ -158,7 +208,53 @@
 @stop
 
 @section('javascript')
+
+
     <script>
+        $(document).ready(function(){
+
+            var count = 1;
+
+            dynamic_field(count);
+
+            function dynamic_field(number)
+            {
+            html = '<tr>';
+                
+                if(number > 1)
+                {
+                    html += '<td><input type="text" name="chapters[]" class="form-control" /></td>';
+                    html += '<td><input type="text" name="chapters[]" class="form-control" /></td>';
+                    html += '<td><input type="text" name="chapters[]" class="form-control" /></td>';
+                    html += '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Sil</button></td></tr>';
+                    $('tfoot').append(html);
+                }
+                else
+                {   
+                    html += '<td><button type="button" name="add" id="add" class="btn btn-success">Əlavə et</button></td></tr>';
+                    $('tbody').html(html);
+                }
+            }
+
+            $(document).on('click', '#add', function(){
+                
+            count++;
+            dynamic_field(count);
+            });
+
+            $(document).on('click', '.remove', function(){
+            count--;
+            if(count < 1){
+                count = 1;
+            }
+            $(this).closest("tr").remove();
+            });
+
+            
+
+            });
+
+///////////////////////////////////////////////////////
         $('.save').click('onclick',function(){   
             var price = $( "input[name='price']").val();
             var saleprice = $( "input[name='saleprice']").val();
