@@ -12,5 +12,4 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-/app/Http/Middleware/VerifyCsrfToken.php
 
