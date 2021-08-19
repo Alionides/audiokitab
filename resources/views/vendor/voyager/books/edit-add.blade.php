@@ -248,22 +248,21 @@
                 count = 1;
             }
             $(this).closest("tr").remove();
-            });
+            });            
 
-            
-
-            });
+        });
 
 ///////////////////////////////////////////////////////
-        $('.save').click('onclick',function(){   
-            var price = $( "input[name='price']").val();
-            var saleprice = $( "input[name='saleprice']").val();
-            var lastprice = price;
-            if(saleprice != 0){
-                lastprice = saleprice;
-            }
-            $( "input[name='lastprice']").val(lastprice);
-        });
+
+        // $('.save').click('onclick',function(){   
+        //     var price = $( "input[name='price']").val();
+        //     var saleprice = $( "input[name='saleprice']").val();
+        //     var lastprice = price;
+        //     if(saleprice != 0){
+        //         lastprice = saleprice;
+        //     }
+        //     $( "input[name='lastprice']").val(lastprice);
+        // });
         
         
 

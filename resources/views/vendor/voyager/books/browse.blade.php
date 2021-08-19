@@ -77,6 +77,13 @@
                         <div class="table-responsive">
                             <table id="dataTable" class="table table-hover">
                                 <thead>
+                                    <tr role="row" class="frist_tr">   
+                                        <th></th>                                  
+                                        @foreach($dataType->browseRows as $row)
+                                        <th class="thclass" style="min-width:100px !important;"> {{ $row->getTranslatedAttribute('display_name') }}</th>
+                                        @endforeach
+                                        <th></th>  
+                                    </tr>
                                     <tr>
                                         @if($showCheckboxColumn)
                                             <th class="dt-not-orderable">
@@ -475,6 +482,11 @@
 @if(!$dataType->server_side && config('dashboard.data_tables.responsive'))
     <link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
 @endif
+<style>
+.tfoot {
+    display: table-row-group;
+}
+</style>
 @stop
 
 @section('javascript')
@@ -485,6 +497,16 @@
     <script>
         $(document).ready(function () {
             @if (!$dataType->server_side)
+
+            /* start of custom search column */
+
+            $('#dataTable  .frist_tr .thclass').each( function () {
+            var title = $(this).text();
+                $(this).html( '<input class="form-control" type="text" placeholder="'+title+'" />' );
+            } );
+
+            /* end of custom search column */
+                
                 var table = $('#dataTable').DataTable({!! json_encode(
                     array_merge([
                         "order" => $orderColumn,
@@ -495,6 +517,10 @@
                     ],
                     config('voyager.dashboard.data_tables', []))
                 , true) !!});
+
+                $('#dataTable  .frist_tr th input').on( 'keyup', function () {
+                    table.search( this.value ).draw();
+                } );
             @else
                 $('#search-input select').select2({
                     minimumResultsForSearch: Infinity
