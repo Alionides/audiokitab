@@ -532,7 +532,7 @@
             $('#dataTable  .frist_tr .thclass').each( function () {
             var title = $(this).text();
 
-            if(title == 'Image'){
+            if(title == 'Şəkil'){
                 $(this).html( '<select class="form-control"><option value="1">Var</option><option value="0">Yoxdur</option></select>' );
                 //$(this).html( '' );
             }else{
