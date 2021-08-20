@@ -199,8 +199,14 @@
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
                                                 @elseif($row->type == 'file' && !empty($data->{$row->field}) )
+
+                                                    
+
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     @if(json_decode($data->{$row->field}) !== null)
+                                                        @if( count(json_decode($data->{$row->field})) < 1 )
+                                                            <p class="sss">yoxdur</p>
+                                                        @endif
                                                         @foreach(json_decode($data->{$row->field}) as $file)
                                                             <a href="{{ Storage::disk(config('voyager.storage.disk'))->url($file->download_link) ?: '' }}" target="_blank">
                                                                 {{ $file->original_name ?: '' }}
@@ -515,14 +521,11 @@
                 }
             } );
 
-            //$( "#sss" ).parent().empty();
             
 
             $('tbody tr td').each( function () {
-
-                var sss = $( ".sss" ).parent(); //.empty();
-            
-            $.trim(sss);
+                var sss = $( ".sss" ).parent();
+                $.trim(sss);
             });
 
             @if (!$dataType->server_side)
@@ -533,9 +536,12 @@
             var title = $(this).text();
 
             if(title == 'Şəkil'){
-                $(this).html( '<select class="form-control"><option value="1">Var</option><option value="0">Yoxdur</option></select>' );
+                $(this).html( '<select id="imageselector"  class="form-control"><option value="1">Var</option><option value="0">Yoxdur</option></select>' );
                 //$(this).html( '' );
-            }else{
+            }else if(title == 'Səs faylı'){
+                $(this).html( '<select id="audioselector" class="form-control"><option value="1">Var</option><option value="0">Yoxdur</option></select>' );
+            }else
+            {
                 $(this).html( '<input class="form-control" type="text" placeholder="'+title+'" />' );
             }
             } );
@@ -558,20 +564,20 @@
                     table.search( this.value ).draw();
                 } );
 
-                $('#dataTable  .frist_tr th select').change( 'change', function () {
-
-                   // table.column(0).search( '^$', true, false );
-
-                  
-
+                $('#dataTable  .frist_tr th #imageselector').change( 'change', function () {
                    if(this.value == 0){
                         table.column(1).search( 'yoxdur', true, false ).draw();
                    }else{
                        table.column(1).search( '', true, false ).draw();
                    }
+                } );
 
-
-
+                $('#dataTable  .frist_tr th #audioselector').change( 'change', function () {
+                   if(this.value == 0){
+                        table.column(2).search( 'yoxdur', true, false ).draw();
+                   }else{
+                       table.column(2).search( '', true, false ).draw();
+                   }
                 } );
 
 
