@@ -80,7 +80,7 @@
                                     <tr role="row" class="frist_tr">   
                                         <th></th>                                  
                                         @foreach($dataType->browseRows as $row)
-                                        <th class="thclass" style="min-width:100px !important;"> {{ $row->getTranslatedAttribute('display_name') }}</th>
+                                        <th class="thclass" style="min-width:100px !important;">{{ $row->getTranslatedAttribute('display_name') }}</th>
                                         @endforeach
                                         <th></th>  
                                     </tr>
@@ -133,7 +133,11 @@
                                                 @if (isset($row->details->view))
                                                     @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $data->{$row->field}, 'action' => 'browse', 'view' => 'browse', 'options' => $row->details])
                                                 @elseif($row->type == 'image')
-                                                    <img src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
+                                                    @if( Voyager::image( $data->{$row->field} ))
+                                                        <img alt='@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif' src="@if( !filter_var($data->{$row->field}, FILTER_VALIDATE_URL)){{ Voyager::image( $data->{$row->field} ) }}@else{{ $data->{$row->field} }}@endif" style="width:100px">
+                                                    @else
+                                                        <p class="sss">yoxdur</p>
+                                                    @endif
                                                 @elseif($row->type == 'relationship')
                                                     @include('voyager::formfields.relationship', ['view' => 'browse','options' => $row->details])
                                                 @elseif($row->type == 'select_multiple')
@@ -496,13 +500,44 @@
     @endif
     <script>
         $(document).ready(function () {
+
+            $.extend( $.fn.dataTableExt.oSort, {
+                "alt-string-pre": function ( a ) {
+                    return a.match(/alt="(.*?)"/)[1].toLowerCase();
+                },
+            
+                "alt-string-asc": function( a, b ) {
+                    return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+                },
+            
+                "alt-string-desc": function(a,b) {
+                    return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+                }
+            } );
+
+            //$( "#sss" ).parent().empty();
+            
+
+            $('tbody tr td').each( function () {
+
+                var sss = $( ".sss" ).parent(); //.empty();
+            
+            $.trim(sss);
+            });
+
             @if (!$dataType->server_side)
 
             /* start of custom search column */
 
             $('#dataTable  .frist_tr .thclass').each( function () {
             var title = $(this).text();
+
+            if(title == 'Image'){
+                $(this).html( '<select class="form-control"><option value="1">Var</option><option value="0">Yoxdur</option></select>' );
+                //$(this).html( '' );
+            }else{
                 $(this).html( '<input class="form-control" type="text" placeholder="'+title+'" />' );
+            }
             } );
 
             /* end of custom search column */
@@ -512,7 +547,8 @@
                         "order" => $orderColumn,
                         "language" => __('voyager::datatable'),
                         "columnDefs" => [
-                            ['targets' => 'dt-not-orderable', 'searchable' =>  false, 'orderable' => false],
+                            ['targets' => 'dt-not-orderable', 'searchable' =>  true, 'orderable' => true,
+                            'type'=> 'alt-string', 'targets'=> 0],
                         ],
                     ],
                     config('voyager.dashboard.data_tables', []))
@@ -521,6 +557,24 @@
                 $('#dataTable  .frist_tr th input').on( 'keyup', function () {
                     table.search( this.value ).draw();
                 } );
+
+                $('#dataTable  .frist_tr th select').change( 'change', function () {
+
+                   // table.column(0).search( '^$', true, false );
+
+                  
+
+                   if(this.value == 0){
+                        table.column(1).search( 'yoxdur', true, false ).draw();
+                   }else{
+                       table.column(1).search( '', true, false ).draw();
+                   }
+
+
+
+                } );
+
+
             @else
                 $('#search-input select').select2({
                     minimumResultsForSearch: Infinity
