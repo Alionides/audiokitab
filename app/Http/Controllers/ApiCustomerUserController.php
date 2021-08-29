@@ -27,6 +27,50 @@ class ApiCustomerUserController extends Controller
             return response(false);
         }
     }
+
+    public function apiRegisterAndLogin(Request $request){
+        $url = 'http://89.108.99.126/sendsmsapi/';
+        $phone = strip_tags($request->phone);
+        $code = rand(10000,99999);
+        $xml = '
+        <SMS-InsRequest>
+
+            <CLIENT from="Klinika" pwd="pass123" user="cemilapi"/>
+        
+            <INSERT datacoding="0" to="0554789079">
+        
+            <TEXT>'.$code.'</TEXT>
+        
+            </INSERT>
+    
+        </SMS-InsRequest>';
+
+        $user = Customeruser::select('*')
+        ->where('phone', $phone)
+        ->first();
+
+        if(!$user){
+            $data = new Customeruser;
+            $data->code = $code;
+            $data->phone = $phone;
+            $data->status = 1;
+            $data->isactive = 0;
+            $data->save();
+
+            $response = Http::send('GET', $url, [
+            'body' => $xml,
+            ]);
+
+            return response($code);
+        }else{
+            $user->code = $code;
+            $user->save();
+            $response = Http::send('GET', $url, [
+                'body' => $xml,
+            ]);
+            return response($code);
+        }
+    }
     public function apiRegisterByPhone(Request $request){
 
         $url = 'http://89.108.99.126/sendsmsapi/';

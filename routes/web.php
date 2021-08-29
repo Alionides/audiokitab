@@ -7,6 +7,7 @@ use App\Http\Controllers\ApiCategoryController;
 use App\Http\Controllers\ApiBookController;
 use App\Http\Controllers\ApiNarratorController;
 use App\Http\Controllers\ApiAuthorController;
+use App\Http\Controllers\ApiBannerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('/', [SiteController::class, 'index'])->name('homepage');
 Route::post('apiregisteruser', [ApiCustomerUserController::class, 'apiRegisterUser']);
+Route::post('apiregisterandlogin', [ApiCustomerUserController::class, 'apiRegisterAndLogin']);
 Route::post('apiregisterbyphone', [ApiCustomerUserController::class, 'apiRegisterByPhone']);
 Route::post('apiloginbyphone', [ApiCustomerUserController::class, 'apiLoginByPhone']);
 Route::post('apiloginuser', [ApiCustomerUserController::class, 'apiLoginUser']);
@@ -40,3 +42,4 @@ Route::post('apigetbookdetail', [ApiBookController::class, 'apiGetBookDetail']);
 Route::get('apigetbooksbycategoryid', [ApiBookController::class, 'apiGetBooksByCategoryId']);
 Route::post('apigetnarrator', [ApiNarratorController::class, 'apiGetNarrator']);
 Route::post('apigetauthor', [ApiAuthorController::class, 'apiGetAuthor']);
+Route::post('apigetbanners', [ApiBannerController::class, 'apiGetBanners']);
