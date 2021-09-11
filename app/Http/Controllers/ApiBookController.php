@@ -3,12 +3,57 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Category;
 use App\Book;
 use App\Customeruser;
+use App\Bookorder;
+use App\Payment;
+use App\Subscribeorder;
+
 class ApiBookController extends Controller
 {
     //
+    public function apiBookOrder(Request $request){
+
+        // $user_id = strip_tags($request->user_id);
+        // $subscribe_id = strip_tags($request->subscribe_id);
+        // $username = strip_tags($request->username);
+        // $subscribe_price = strip_tags($request->subscribe_price);
+        // $subscribe_name = strip_tags($request->subscribe_name);
+        // $subscribe_date = strip_tags($request->subscribe_date);
+
+       
+
+        $user_id = 1;
+        $book_id = 1;
+        $username = 'Ali';
+        $book_price = 1000;
+        $status = 'NOTAPPROVED';
+
+
+
+
+        $data = new Bookorder;
+        $data->user_id = $user_id;
+        $data->book_id = $book_id;
+        $data->username = $username;
+        $data->book_price = $book_price;
+        $data->status = $status;
+        $data->save();
+        
+        // type 1 means the payment for subscription  type 2 means  book payment
+        $type =2;
+
+        $arr = array('type'=>$type,'payment_type_id'=>$data->id,'amount'=>$book_price);
+        $payment = new PaymentKapitalController;
+        $payment->setAmount($arr);
+        return $payment->createTestOrder();
+        // if($data->save()){
+        //     return response(200);
+        // }
+    }
+
     public function apiGetBooksByCategoryId(Request $request){
             $cat_id = $request->category_id;
             //$data = Book::with('categories')->where('category_id',$cat_id)->paginate(1);
@@ -55,24 +100,34 @@ class ApiBookController extends Controller
             $book['isfree'] = $data->isfree;            
             $book['created_at'] = $data->created_at;
 
-            if ($data->isfree === 0) {
-                $book['sound'] = $data->sound; 
-            }elseif($data->isfree === 1 && $data->price === 0){
-                //check if user paid monthly 
-                 $user = Customeruser::select('*')
-                ->where('token', $token)
-                ->first();
-                if($user){
-                    if($user->isactive === 1){
-                        $book['sound'] = $data->sound;
-                    }
-                }else{
-                    $book['sound'] = false;
-                }
-            }elseif($data->price > 0){
-                //check if user paid for book
-                $book['sound'] = 222;
+            $user = Customeruser::select('*')->where('token', $token)->first();
+            $bookorder = Bookorder::select('*')
+            ->where('user_id',$user->id)
+            ->where('book_id',$data->id)
+            ->first();
+
+            
+            
+            $subscribeorder = Subscribeorder::select('*')
+            ->where('user_id',$user->id)
+            ->first();
+
+            $now = Carbon::now();     
+            //$now = Carbon::create('2020-10-02 08:09:34');       
+            $subscribetime = $subscribeorder->created_at;
+            $diff = $now->diffInMinutes($subscribetime->add($subscribeorder->subscribe_date, 'month'), false);
+
+
+
+            if ($data->price > 0 && $bookorder->status === 'APPROVED') {
+                $book['sound'] = $data->sound;
             }
+            elseif ($data->issubscribe > 0  && $diff > 0) {
+                $book['sound'] = $data->sound;
+            }
+            else{
+                $book['sound'] = false;
+            }        
 
             return response($book);
     }

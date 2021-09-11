@@ -37,7 +37,7 @@ class ApiCustomerUserController extends Controller
 
             <CLIENT from="Klinika" pwd="pass123" user="cemilapi"/>
         
-            <INSERT datacoding="0" to="0554789079">
+            <INSERT datacoding="0" to="'.$phone.'">
         
             <TEXT>'.$code.'</TEXT>
         
@@ -61,14 +61,14 @@ class ApiCustomerUserController extends Controller
             'body' => $xml,
             ]);
 
-            return response($code);
+            return response(true);
         }else{
             $user->code = $code;
             $user->save();
             $response = Http::send('GET', $url, [
                 'body' => $xml,
             ]);
-            return response($code);
+            return response(true);
         }
     }
     public function apiRegisterByPhone(Request $request){
@@ -81,7 +81,7 @@ class ApiCustomerUserController extends Controller
 
             <CLIENT from="Klinika" pwd="pass123" user="cemilapi"/>
         
-            <INSERT datacoding="0" to="0554789079">
+            <INSERT datacoding="0" to="'.$phone.'">
         
             <TEXT>'.$code.'</TEXT>
         
@@ -105,7 +105,7 @@ class ApiCustomerUserController extends Controller
             'body' => $xml,
             ]);
 
-            return response($code);
+            return response(true);
         }else{
             return response(false);
         }
