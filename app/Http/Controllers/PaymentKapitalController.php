@@ -118,9 +118,9 @@ class PaymentKapitalController extends Controller
                 <Amount>'.$order_data['amount'].'</Amount>
                 <Currency>'.$order_data['currency'].'</Currency>
                 <Description>'.$order_data['description'].'</Description>
-                <ApproveURL>http://127.0.0.1:8000/approve</ApproveURL>
-                <CancelURL>http://127.0.0.1:8000/cancel</CancelURL>
-                <DeclineURL>http://127.0.0.1:8000/decline</DeclineURL>
+                <ApproveURL>'.url('').'/approve</ApproveURL>
+                <CancelURL>'.url('').'/cancel</CancelURL>
+                <DeclineURL>'.url('').'/decline</DeclineURL>
             </Order>
         </Request>
         </TKKPG>
