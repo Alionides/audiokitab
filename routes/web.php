@@ -45,8 +45,9 @@ Route::get('apigetbooksbycategoryid', [ApiBookController::class, 'apiGetBooksByC
 Route::post('apigetnarrator', [ApiNarratorController::class, 'apiGetNarrator']);
 Route::post('apigetauthor', [ApiAuthorController::class, 'apiGetAuthor']);
 Route::post('apigetbanners', [ApiBannerController::class, 'apiGetBanners']);
-Route::get('apisavesubscribeorder', [ApiSubscribeController::class, 'apiSaveSubscribeOrder']);
-Route::get('apibookorder', [ApiBookController::class, 'apiBookOrder']);
+Route::post('apisubscribeorder', [ApiSubscribeController::class, 'apiSubscribeOrder']);
+Route::post('apibookorder', [ApiBookController::class, 'apiBookOrder']);
 Route::post('approve', [PaymentKapitalController::class, 'approveUrl']);
 Route::post('cancel', [PaymentKapitalController::class, 'cancelUrl']);
 Route::post('decline', [PaymentKapitalController::class, 'declineUrl']);
+Route::post('apigetsubscribe', [ApiSubscribeController::class, 'apiGetSubscribe']);

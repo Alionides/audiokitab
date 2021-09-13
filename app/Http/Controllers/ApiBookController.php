@@ -16,19 +16,18 @@ class ApiBookController extends Controller
     //
     public function apiBookOrder(Request $request){
 
-        // $user_id = strip_tags($request->user_id);
-        // $subscribe_id = strip_tags($request->subscribe_id);
-        // $username = strip_tags($request->username);
-        // $subscribe_price = strip_tags($request->subscribe_price);
-        // $subscribe_name = strip_tags($request->subscribe_name);
-        // $subscribe_date = strip_tags($request->subscribe_date);
+        $user_id = strip_tags($request->user_id);
+        $book_id = strip_tags($request->book_id);
+        $username = strip_tags($request->username);
+        $book_price = strip_tags($request->book_price);
 
        
 
-        $user_id = 1;
-        $book_id = 1;
-        $username = 'Ali';
-        $book_price = 1000;
+        // $user_id = 1;
+        // $book_id = 1;
+        // $username = 'Ali';
+        // $book_price = 1000;
+
         $status = 'NOTAPPROVED';
 
 

@@ -26,9 +26,11 @@ class VerifyCsrfToken extends Middleware
         'http://127.0.0.1:8000/apigetnarrator',
         'http://127.0.0.1:8000/apigetauthor',
         'http://127.0.0.1:8000/apigetbanners',
-        'http://127.0.0.1:8000/apisavesubscribeorder',
+        'http://127.0.0.1:8000/apibookorder',        
+        'http://127.0.0.1:8000/apisubscribeorder',        
         'http://127.0.0.1:8000/approve',
         'http://127.0.0.1:8000/cancel',
         'http://127.0.0.1:8000/decline',
+        'http://127.0.0.1:8000/apigetsubscribe',
     ];
 }

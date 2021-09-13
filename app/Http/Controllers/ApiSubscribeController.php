@@ -10,21 +10,27 @@ use App\Payment;
 class ApiSubscribeController extends Controller
 {
     //
-    public function apiSaveSubscribeOrder(Request $request){
+    public function apiGetSubscribe(Request $request){
+        $data = Subscription::select('*')->get();
 
-        // $user_id = strip_tags($request->user_id);
-        // $subscribe_id = strip_tags($request->subscribe_id);
-        // $username = strip_tags($request->username);
-        // $subscribe_price = strip_tags($request->subscribe_price);
-        // $subscribe_name = strip_tags($request->subscribe_name);
-        // $subscribe_date = strip_tags($request->subscribe_date);
+        return response($data);
+    }
+    
+    public function apiSubscribeOrder(Request $request){
 
-        $user_id = 1;
-        $subscribe_id = 1;
-        $username = 'Ali';
-        $subscribe_price = 12000;
-        $subscribe_name = '1 aylig paket';
-        $subscribe_date = 1;
+        $user_id = strip_tags($request->user_id);
+        $subscribe_id = strip_tags($request->subscribe_id);
+        $username = strip_tags($request->username);
+        $subscribe_price = strip_tags($request->subscribe_price);
+        $subscribe_name = strip_tags($request->subscribe_name);
+        $subscribe_date = strip_tags($request->subscribe_date);
+
+        // $user_id = 1;
+        // $subscribe_id = 1;
+        // $username = 'Ali';
+        // $subscribe_price = 12000;
+        // $subscribe_name = '1 aylig paket';
+        // $subscribe_date = 1;
         $status = 'NOTAPPROVED';
 
 
