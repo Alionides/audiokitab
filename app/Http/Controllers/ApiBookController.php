@@ -107,8 +107,7 @@ class ApiBookController extends Controller
 
             
             
-            $subscribeorder = Subscribeorder::select('*')
-            ->where('user_id',$user->id)
+            $subscribeorder = Subscribeorder::where('user_id',$user->id)
             ->first();
 
             $now = Carbon::now();     
