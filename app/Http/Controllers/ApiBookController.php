@@ -105,6 +105,14 @@ class ApiBookController extends Controller
             ->where('book_id',$data->id)
             ->first();
 
+            if($bookorder == false){
+                $bookorderstatus = false;
+            }elseif ($bookorder->status === 'APPROVED') {
+                $bookorderstatus = true;
+            }else{
+                $bookorderstatus = false;
+            }
+
             
             
             $subscribeorder = Subscribeorder::where('user_id',$user->id)
@@ -122,7 +130,7 @@ class ApiBookController extends Controller
             
 
 
-            if ($data->price > 0 && $bookorder->status === 'APPROVED') {
+            if ($data->price > 0 && $bookorderstatus == true) {
                 $book['sound'] = $data->sound;
             }
             elseif ($data->issubscribe > 0  && $diff > 0) {
