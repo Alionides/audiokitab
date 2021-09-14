@@ -99,7 +99,7 @@ class ApiBookController extends Controller
             $book['isfree'] = $data->isfree;            
             $book['created_at'] = $data->created_at;
 
-            $user = Customeruser::select('*')->where('token', $token)->first();
+            $user = Customeruser::where('token', $token)->first();
             $bookorder = Bookorder::select('*')
             ->where('user_id',$user->id)
             ->where('book_id',$data->id)
@@ -107,15 +107,19 @@ class ApiBookController extends Controller
 
             
             
-            $subscribeorder = Subscribeorder::select('*')
-            ->where('user_id',$user->id)
-            ->first();
+            $subscribeorder = Subscribeorder::where('user_id',$user->id)
+            ->latest()->first();
 
-            $now = Carbon::now();     
-            //$now = Carbon::create('2020-10-02 08:09:34');       
-            $subscribetime = $subscribeorder->created_at;
-            $diff = $now->diffInMinutes($subscribetime->add($subscribeorder->subscribe_date, 'month'), false);
+            if($subscribeorder == false){
+                $diff = -1;
+            }else{
+                $now = Carbon::now();     
+                //$now = Carbon::create('2020-10-02 08:09:34');       
+                $subscribetime = $subscribeorder->created_at;
+                $diff = $now->diffInMinutes($subscribetime->add($subscribeorder->subscribe_date, 'month'), false);
+            }
 
+            
 
 
             if ($data->price > 0 && $bookorder->status === 'APPROVED') {
