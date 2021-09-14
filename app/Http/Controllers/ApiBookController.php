@@ -112,7 +112,7 @@ class ApiBookController extends Controller
 
             $now = Carbon::now();     
             //$now = Carbon::create('2020-10-02 08:09:34');       
-            $subscribetime = $subscribeorder->created_at;
+            $subscribetime = $subscribeorder['created_at'];
             $diff = $now->diffInMinutes($subscribetime->add($subscribeorder->subscribe_date, 'month'), false);
 
 
