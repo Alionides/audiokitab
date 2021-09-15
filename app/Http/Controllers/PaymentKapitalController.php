@@ -161,8 +161,11 @@ class PaymentKapitalController extends Controller
         //dd($redirectUrl);
        //echo $redirectUrl;
 
-      // return response($redirectUrl);
-       return redirect()->to($redirectUrl);
+       //for mobile api post method
+       return response($redirectUrl);
+       
+       // for website payment with get method
+       //return redirect()->to($redirectUrl);
 
        //return header("Location: ");
 
