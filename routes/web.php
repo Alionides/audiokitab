@@ -51,3 +51,8 @@ Route::post('approve', [PaymentKapitalController::class, 'approveUrl']);
 Route::post('cancel', [PaymentKapitalController::class, 'cancelUrl']);
 Route::post('decline', [PaymentKapitalController::class, 'declineUrl']);
 Route::post('apigetsubscribe', [ApiSubscribeController::class, 'apiGetSubscribe']);
+Route::post('apigetrecommendedbooks', [ApiBookController::class, 'apiGetRecommendedBooks']);
+Route::post('apisearchbooks', [ApiBookController::class, 'apiSearchBooks']);
+Route::post('apigetmybooks', [ApiBookController::class, 'apiGetMyBooks']);
+Route::post('apigetlikedbooks', [ApiBookController::class, 'apiGetLikedBooks']);
+Route::post('apilikebook', [ApiBookController::class, 'apiLikeBook']);

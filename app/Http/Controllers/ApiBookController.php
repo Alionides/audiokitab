@@ -10,10 +10,97 @@ use App\Customeruser;
 use App\Bookorder;
 use App\Payment;
 use App\Subscribeorder;
+use App\Booklike;
 
 class ApiBookController extends Controller
 {
     //
+    public function apiGetRecommendedBooks(Request $request){
+        $data = Book::where('recommended',1)->where('isactive',1)->get();
+        if($data->isEmpty()){
+            return response(400);
+        }
+        $book = [];
+        $book['id'] = $data[0]['id'];
+        $book['title_az'] = $data[0]['title_az'];
+        $book['image'] = $data[0]['image'];
+        $book['price'] = $data[0]['price'];
+        $book['author'] = $data[0]['author'];
+
+        return response($data);
+    }
+
+    public function apiSearchBooks(Request $request){
+        $search = strip_tags($request->search);
+        $data = Book::where('title_az' ,'LIKE','%'.$search.'%')
+        ->where('isactive',1)
+        ->get();
+       
+        if($data->isEmpty()){
+            return response(400);
+        }
+
+        $book = [];
+        $book['id'] = $data[0]['id'];
+        $book['title_az'] = $data[0]['title_az'];
+        $book['image'] = $data[0]['image'];
+        $book['price'] = $data[0]['price'];
+        $book['author'] = $data[0]['author'];
+
+         return response($data);
+    }
+    public function apiGetMyBooks(Request $request){
+        $user_id = strip_tags($request->user_id);
+        $data = Bookorder::with('bookorder')
+        ->where('user_id',$user_id)
+        ->get();
+       
+        if($data->isEmpty()){
+            return response(400);
+        }
+
+        $book = [];
+        $book['id'] = $data[0]['id'];
+        $book['title_az'] = $data[0]['title_az'];
+        $book['image'] = $data[0]['image'];
+        $book['price'] = $data[0]['price'];
+        $book['author'] = $data[0]['author'];
+
+         return response($data);
+    }
+    public function apiGetLikedBooks(Request $request){
+        $user_id = strip_tags($request->user_id);
+        $data = Booklike::with('booklike')
+        ->where('user_id',$user_id)
+        ->get();
+       
+        if($data->isEmpty()){
+            return response(400);
+        }
+
+        $book = [];
+        $book['id'] = $data[0]['id'];
+        $book['title_az'] = $data[0]['title_az'];
+        $book['image'] = $data[0]['image'];
+        $book['price'] = $data[0]['price'];
+        $book['author'] = $data[0]['author'];
+
+         return response($data);
+    }
+
+    public function apiLikeBook(Request $request){
+        $user_id = strip_tags($request->user_id);
+        $book_id = strip_tags($request->book_id);
+        $data = new Booklike;
+        $data->user_id = $user_id;
+        $data->book_id = $book_id;
+        $data->save();
+        if($data){
+            return response(200);
+        }
+
+    }
+
     public function apiBookOrder(Request $request){
 
         $user_id = strip_tags($request->user_id);
@@ -56,8 +143,11 @@ class ApiBookController extends Controller
     public function apiGetBooksByCategoryId(Request $request){
             $cat_id = $request->category_id;
             //$data = Book::with('categories')->where('category_id',$cat_id)->paginate(1);
-            $data = Book::whereJsonContains('categories',$cat_id)->get();//->paginate(1);
+            $data = Book::whereJsonContains('categories',$cat_id)->where('isactive',1)->get();//->paginate(1);
             //soundu yigisdirmag lazimdi
+            if($data->isEmpty()){
+                return response(400);
+            }
             return response($data);
     }
 
@@ -65,7 +155,9 @@ class ApiBookController extends Controller
             $book_id = $request->id;
             $token = strip_tags($request->token);
             $data = Book::with('author',"narrator")->where('id',$book_id)->where('isactive',1)->firstOrFail();
-            
+            if($data->isEmpty()){
+                return response(400);
+            }
 
             $catarr = [];
             foreach (json_decode($data->categories) as $key => $value) {

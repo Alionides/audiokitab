@@ -12,6 +12,7 @@ class ApiSubscribeController extends Controller
     //
     public function apiGetSubscribe(Request $request){
         $data = Subscription::select('*')->get();
+        $book = array($data);
 
         return response($data);
     }

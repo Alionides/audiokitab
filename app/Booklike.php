@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Bookorder extends Model
+class Booklike extends Model
 {
-    public function bookorder() {
+    public function booklike() {
         return $this->belongsTo(Book::class, 'book_id');
     }
 }
