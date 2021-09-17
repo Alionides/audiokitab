@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Category;
 use App\Book;
@@ -27,7 +28,7 @@ class ApiBookController extends Controller
         $book['price'] = $data[0]['price'];
         $book['author'] = $data[0]['author'];
 
-        return response($data);
+        return response($book);
     }
 
     public function apiSearchBooks(Request $request){
@@ -47,7 +48,7 @@ class ApiBookController extends Controller
         $book['price'] = $data[0]['price'];
         $book['author'] = $data[0]['author'];
 
-         return response($data);
+         return response($book);
     }
     public function apiGetMyBooks(Request $request){
         $user_id = strip_tags($request->user_id);
@@ -66,7 +67,7 @@ class ApiBookController extends Controller
         $book['price'] = $data[0]['price'];
         $book['author'] = $data[0]['author'];
 
-         return response($data);
+         return response($book);
     }
     public function apiGetLikedBooks(Request $request){
         $user_id = strip_tags($request->user_id);
@@ -85,7 +86,7 @@ class ApiBookController extends Controller
         $book['price'] = $data[0]['price'];
         $book['author'] = $data[0]['author'];
 
-         return response($data);
+         return response($book);
     }
 
     public function apiLikeBook(Request $request){
@@ -143,21 +144,35 @@ class ApiBookController extends Controller
     public function apiGetBooksByCategoryId(Request $request){
             $cat_id = $request->category_id;
             //$data = Book::with('categories')->where('category_id',$cat_id)->paginate(1);
-            $data = Book::whereJsonContains('categories',$cat_id)->where('isactive',1)->get();//->paginate(1);
+            $data = Book::whereJsonContains('categories',$cat_id)->where('isactive',1)->get();
+            //->paginate(1);
             //soundu yigisdirmag lazimdi
+
+            //$sound = url('').Storage::url((json_decode($data[0]->sound))[0]->download_link);
+            //return response($a);
             if($data->isEmpty()){
                 return response(400);
             }
-            return response($data);
+            $book = [];
+            $book['id'] = $data[0]['id'];
+            $book['title_az'] = $data[0]['title_az'];
+            $book['image'] = $data[0]['image'];
+            $book['price'] = $data[0]['price'];
+            $book['author'] = $data[0]['author'];
+
+            return response($book);
     }
 
     public function apiGetBookDetail(Request $request){
             $book_id = $request->id;
             $token = strip_tags($request->token);
-            $data = Book::with('author',"narrator")->where('id',$book_id)->where('isactive',1)->firstOrFail();
-            if($data->isEmpty()){
+            $data = Book::with('author',"narrator")->where('id',$book_id)->where('isactive',1)->first();
+            //if($data->isEmpty()){
+            if(!$data){
                 return response(400);
             }
+
+            $sound = url('').Storage::url((json_decode($data->sound))[0]->download_link);
 
             $catarr = [];
             foreach (json_decode($data->categories) as $key => $value) {
@@ -223,10 +238,10 @@ class ApiBookController extends Controller
 
 
             if ($data->price > 0 && $bookorderstatus == true) {
-                $book['sound'] = $data->sound;
+                $book['sound'] = $sound;
             }
             elseif ($data->issubscribe > 0  && $diff > 0) {
-                $book['sound'] = $data->sound;
+                $book['sound'] = $sound;
             }
             else{
                 $book['sound'] = false;
