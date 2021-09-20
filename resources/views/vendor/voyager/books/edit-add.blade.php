@@ -95,6 +95,14 @@
                                 </div>
                                 
                             @endforeach
+                            <!-- Mp3 preview -->
+                            <div class="form-group  col-md-12">
+                                <div class="table-responsive">
+                                    @if ($dataTypeContent->sound)
+                                    <a target="_blank" href="{{url("/admin/soundfile")}}?sound={{url('').Storage::url((json_decode($dataTypeContent->sound))[0]->download_link)}}&start={{$dataTypeContent->start}}&end={{$dataTypeContent->end}}">Kitabdan bir parça oxut</a>  
+                                    @endif
+                                </div>
+                            </div>                                      
                             <!-- dynamic chapter -->
                             <div class="form-group  col-md-12 ">
                                 <div class="table-responsive">                                        
@@ -211,7 +219,10 @@
 
 
     <script>
+        
         $(document).ready(function(){
+
+        
 
             var count = 1;
 

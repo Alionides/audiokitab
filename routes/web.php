@@ -9,7 +9,9 @@ use App\Http\Controllers\ApiNarratorController;
 use App\Http\Controllers\ApiAuthorController;
 use App\Http\Controllers\ApiBannerController;
 use App\Http\Controllers\ApiSubscribeController;
+use App\Http\Controllers\ApiPageController;
 use App\Http\Controllers\PaymentKapitalController;
+use App\Http\Controllers\Voyager\BooksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +31,7 @@ use App\Http\Controllers\PaymentKapitalController;
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::get('soundfile', [BooksController::class, 'soundfile']);
 });
 
 Route::get('/', [SiteController::class, 'index'])->name('homepage');
@@ -56,3 +59,5 @@ Route::post('apisearchbooks', [ApiBookController::class, 'apiSearchBooks']);
 Route::post('apigetmybooks', [ApiBookController::class, 'apiGetMyBooks']);
 Route::post('apigetlikedbooks', [ApiBookController::class, 'apiGetLikedBooks']);
 Route::post('apilikebook', [ApiBookController::class, 'apiLikeBook']);
+Route::post('apigetpages', [ApiPageController::class, 'apiGetPages']);
+Route::post('apigetpagebyid', [ApiPageController::class, 'apiGetPageById']);

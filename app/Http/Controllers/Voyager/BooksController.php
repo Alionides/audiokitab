@@ -27,7 +27,13 @@ class BooksController extends VoyagerBaseController
     //
     //****************************************
     
-    
+    public function soundfile(Request $request){
+         $start = $request->start;
+         $end = $request->end;
+         $sound = $request->sound;
+       return Voyager::view('vendor.voyager.soundfile',compact('sound','start','end'));
+
+    }
     
     public function create(Request $request)
     {
