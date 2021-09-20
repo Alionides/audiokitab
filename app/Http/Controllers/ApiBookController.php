@@ -80,11 +80,14 @@ class ApiBookController extends Controller
         }
 
         $book = [];
-        $book['id'] = $data[0]['id'];
-        $book['title_az'] = $data[0]['title_az'];
-        $book['image'] = $data[0]['image'];
-        $book['price'] = $data[0]['price'];
-        $book['author'] = $data[0]['author'];
+
+        foreach ($data as $key => $value) {
+            $book[$key]['id'] = $value['booklike']['id'];
+            $book[$key]['title_az'] = $value['booklike']['title_az'];
+            $book[$key]['image'] = $value['booklike']['image'];
+            $book[$key]['price'] = $value['booklike']['price'];
+            $book[$key]['author'] = $value['booklike']['author'];
+        }
 
          return response($book);
     }
@@ -154,11 +157,18 @@ class ApiBookController extends Controller
                 return response(400);
             }
             $book = [];
-            $book['id'] = $data[0]['id'];
-            $book['title_az'] = $data[0]['title_az'];
-            $book['image'] = $data[0]['image'];
-            $book['price'] = $data[0]['price'];
-            $book['author'] = $data[0]['author'];
+            // $book['id'] = $data[0]['id'];
+            // $book['title_az'] = $data[0]['title_az'];
+            // $book['image'] = $data[0]['image'];
+            // $book['price'] = $data[0]['price'];
+            // $book['author'] = $data[0]['author'];
+            foreach ($data as $key => $value) {
+                $book[$key]['id'] = $value['id'];
+                $book[$key]['title_az'] = $value['title_az'];
+                $book[$key]['image'] = $value['image'];
+                $book[$key]['price'] = $value['price'];
+                $book[$key]['author'] = $value['author'];
+            }
 
             return response($book);
     }
@@ -194,6 +204,8 @@ class ApiBookController extends Controller
             $book['title_az'] = $data->title_az;
             $book['desc_az'] = $data->desc_az;
             $book['image'] = $data->image;
+            $book['start'] = $data->start;
+            $book['end'] = $data->end;
             $book['price'] = $data->price;
             $book['categories'] = $catarr; //$data->categories;
             $book['chapters'] = $newarr; 
