@@ -15,7 +15,7 @@ class ApiPageController extends Controller
         $page_id = strip_tags($request->page_id);
         $data = Page::where('id',$page_id)->get();
         if($data->isEmpty()){
-            return response(400);
+            return response([]);
         }
         return response($data);
     }

@@ -19,14 +19,22 @@ class ApiBookController extends Controller
     public function apiGetRecommendedBooks(Request $request){
         $data = Book::where('recommended',1)->where('isactive',1)->get();
         if($data->isEmpty()){
-            return response(400);
+            return response([]);
         }
         $book = [];
-        $book['id'] = $data[0]['id'];
-        $book['title_az'] = $data[0]['title_az'];
-        $book['image'] = $data[0]['image'];
-        $book['price'] = $data[0]['price'];
-        $book['author'] = $data[0]['author'];
+        // $book['id'] = $data[0]['id'];
+        // $book['title_az'] = $data[0]['title_az'];
+        // $book['image'] = $data[0]['image'];
+        // $book['price'] = $data[0]['price'];
+        // $book['author'] = $data[0]['author'];
+
+        foreach ($data as $key => $value) {
+            $book[$key]['id'] = $value['id'];
+            $book[$key]['title_az'] = $value['title_az'];
+            $book[$key]['image'] = $value['image'];
+            $book[$key]['price'] = $value['price'];
+            $book[$key]['author'] = $value['author'];
+        }
 
         return response($book);
     }
@@ -38,15 +46,22 @@ class ApiBookController extends Controller
         ->get();
        
         if($data->isEmpty()){
-            return response(400);
+            return response([]);
         }
 
         $book = [];
-        $book['id'] = $data[0]['id'];
-        $book['title_az'] = $data[0]['title_az'];
-        $book['image'] = $data[0]['image'];
-        $book['price'] = $data[0]['price'];
-        $book['author'] = $data[0]['author'];
+        // $book['id'] = $data[0]['id'];
+        // $book['title_az'] = $data[0]['title_az'];
+        // $book['image'] = $data[0]['image'];
+        // $book['price'] = $data[0]['price'];
+        // $book['author'] = $data[0]['author'];
+        foreach ($data as $key => $value) {
+            $book[$key]['id'] = $value['id'];
+            $book[$key]['title_az'] = $value['title_az'];
+            $book[$key]['image'] = $value['image'];
+            $book[$key]['price'] = $value['price'];
+            $book[$key]['author'] = $value['author'];
+        }
 
          return response($book);
     }
@@ -57,15 +72,23 @@ class ApiBookController extends Controller
         ->get();
        
         if($data->isEmpty()){
-            return response(400);
+            return response([]);
         }
 
         $book = [];
-        $book['id'] = $data[0]['id'];
-        $book['title_az'] = $data[0]['title_az'];
-        $book['image'] = $data[0]['image'];
-        $book['price'] = $data[0]['price'];
-        $book['author'] = $data[0]['author'];
+        // $book['id'] = $data[0]['id'];
+        // $book['title_az'] = $data[0]['title_az'];
+        // $book['image'] = $data[0]['image'];
+        // $book['price'] = $data[0]['price'];
+        // $book['author'] = $data[0]['author'];
+        
+        foreach ($data as $key => $value) {
+            $book[$key]['id'] = $value['bookorder']['id'];
+            $book[$key]['title_az'] = $value['bookorder']['title_az'];
+            $book[$key]['image'] = $value['bookorder']['image'];
+            $book[$key]['price'] = $value['bookorder']['price'];
+            $book[$key]['author'] = $value['bookorder']['author'];
+        }
 
          return response($book);
     }
@@ -76,7 +99,7 @@ class ApiBookController extends Controller
         ->get();
        
         if($data->isEmpty()){
-            return response(400);
+            return response([]);
         }
 
         $book = [];
@@ -154,7 +177,7 @@ class ApiBookController extends Controller
             //$sound = url('').Storage::url((json_decode($data[0]->sound))[0]->download_link);
             //return response($a);
             if($data->isEmpty()){
-                return response(400);
+                return response([]);
             }
             $book = [];
             // $book['id'] = $data[0]['id'];
@@ -179,7 +202,7 @@ class ApiBookController extends Controller
             $data = Book::with('author',"narrator")->where('id',$book_id)->where('isactive',1)->first();
             //if($data->isEmpty()){
             if(!$data){
-                return response(400);
+                return response([]);
             }
 
             $sound = url('').Storage::url((json_decode($data->sound))[0]->download_link);
@@ -232,7 +255,6 @@ class ApiBookController extends Controller
                 $bookorderstatus = false;
             }
 
-            
             
             $subscribeorder = Subscribeorder::where('user_id',$user->id)
             ->latest()->first();
