@@ -16,6 +16,19 @@ use App\Booklike;
 class ApiBookController extends Controller
 {
     //
+    public function apiGetNewBooks(Request $request){
+        $now = Carbon::today();
+        $data = Book::where('created_at', '>=', $now->sub('1 month'))->get();
+        $book = [];
+        foreach ($data as $key => $value) {
+            $book[$key]['id'] = $value['id'];
+            $book[$key]['title_az'] = $value['title_az'];
+            $book[$key]['image'] = is_null($value['image']) ? null :  url('').Storage::url($value['image']);
+            $book[$key]['price'] = $value['price'];
+            $book[$key]['author'] = $value['author'];
+        }
+        return response($book);
+    }
     public function apiGetRecommendedBooks(Request $request){
         $data = Book::where('recommended',1)->where('isactive',1)->get();
         if($data->isEmpty()){
@@ -31,7 +44,7 @@ class ApiBookController extends Controller
         foreach ($data as $key => $value) {
             $book[$key]['id'] = $value['id'];
             $book[$key]['title_az'] = $value['title_az'];
-            $book[$key]['image'] = $value['image'];
+            $book[$key]['image'] = is_null($value['image']) ? null :  url('').Storage::url($value['image']);
             $book[$key]['price'] = $value['price'];
             $book[$key]['author'] = $value['author'];
         }
@@ -58,7 +71,7 @@ class ApiBookController extends Controller
         foreach ($data as $key => $value) {
             $book[$key]['id'] = $value['id'];
             $book[$key]['title_az'] = $value['title_az'];
-            $book[$key]['image'] = $value['image'];
+            $book[$key]['image'] = is_null($value['image']) ? null :  url('').Storage::url($value['image']);
             $book[$key]['price'] = $value['price'];
             $book[$key]['author'] = $value['author'];
         }
@@ -85,7 +98,7 @@ class ApiBookController extends Controller
         foreach ($data as $key => $value) {
             $book[$key]['id'] = $value['bookorder']['id'];
             $book[$key]['title_az'] = $value['bookorder']['title_az'];
-            $book[$key]['image'] = $value['bookorder']['image'];
+            $book[$key]['image'] = is_null($value['bookorder']['image']) ? null :  url('').Storage::url($value['bookorder']['image']);
             $book[$key]['price'] = $value['bookorder']['price'];
             $book[$key]['author'] = $value['bookorder']['author'];
         }
@@ -107,7 +120,7 @@ class ApiBookController extends Controller
         foreach ($data as $key => $value) {
             $book[$key]['id'] = $value['booklike']['id'];
             $book[$key]['title_az'] = $value['booklike']['title_az'];
-            $book[$key]['image'] = $value['booklike']['image'];
+            $book[$key]['image'] = is_null($value['booklike']['image']) ? null :  url('').Storage::url($value['booklike']['image']);
             $book[$key]['price'] = $value['booklike']['price'];
             $book[$key]['author'] = $value['booklike']['author'];
         }
@@ -188,7 +201,7 @@ class ApiBookController extends Controller
             foreach ($data as $key => $value) {
                 $book[$key]['id'] = $value['id'];
                 $book[$key]['title_az'] = $value['title_az'];
-                $book[$key]['image'] = $value['image'];
+                $book[$key]['image'] = is_null($value['image']) ? null :  url('').Storage::url($value['image']);
                 $book[$key]['price'] = $value['price'];
                 $book[$key]['author'] = $value['author'];
             }
@@ -226,7 +239,7 @@ class ApiBookController extends Controller
             $book['id'] = $data->id;
             $book['title_az'] = $data->title_az;
             $book['desc_az'] = $data->desc_az;
-            $book['image'] = $data->image;
+            $book['image'] = is_null($data->image) ? null :  url('').Storage::url($data->image);
             $book['start'] = $data->start;
             $book['end'] = $data->end;
             $book['price'] = $data->price;
