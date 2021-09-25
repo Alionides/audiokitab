@@ -62,3 +62,5 @@ Route::post('apilikebook', [ApiBookController::class, 'apiLikeBook']);
 Route::post('apigetpages', [ApiPageController::class, 'apiGetPages']);
 Route::post('apigetpagebyid', [ApiPageController::class, 'apiGetPageById']);
 Route::post('apigetnewbooks', [ApiBookController::class, 'apiGetNewBooks']);
+Route::post('apiunlikebook', [ApiBookController::class, 'apiUnlikeBook']);
+

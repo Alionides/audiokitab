@@ -131,12 +131,30 @@ class ApiBookController extends Controller
     public function apiLikeBook(Request $request){
         $user_id = strip_tags($request->user_id);
         $book_id = strip_tags($request->book_id);
-        $data = new Booklike;
-        $data->user_id = $user_id;
-        $data->book_id = $book_id;
-        $data->save();
-        if($data){
-            return response(200);
+        $book = Booklike::where('user_id',$user_id)->where('book_id',$book_id)->get();
+        
+        if(count($book) == 0){
+            $data = new Booklike;
+            $data->user_id = $user_id;
+            $data->book_id = $book_id;
+            $data->save();
+            if($data){
+                return response(200);
+            }
+        }else{
+                return response(400);
+        }
+
+    }
+    public function apiUnlikeBook(Request $request){
+        $user_id = strip_tags($request->user_id);
+        $book_id = strip_tags($request->book_id);
+        $book = Booklike::where('user_id',$user_id)->where('book_id',$book_id)->delete();
+        
+        if($book){
+                return response(200);
+        }else{
+                return response(400);
         }
 
     }
