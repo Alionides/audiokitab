@@ -41,5 +41,6 @@ class VerifyCsrfToken extends Middleware
         'http://127.0.0.1:8000/apigetpagebyid',
         'http://127.0.0.1:8000/apigetnewbooks',
         'http://127.0.0.1:8000/apiunlikebook',
+        'http://127.0.0.1:8000/apipromocodeorder',
     ];
 }

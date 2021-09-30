@@ -162,7 +162,10 @@ class PaymentKapitalController extends Controller
        //echo $redirectUrl;
 
        //for mobile api post method
-       return response($redirectUrl);
+
+       $returnurl = ['url'=>$redirectUrl];
+       $jsonurl = json_encode($returnurl);
+       return response($jsonurl);
        
        // for website payment with get method
        //return redirect()->to($redirectUrl);
