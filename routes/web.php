@@ -11,6 +11,7 @@ use App\Http\Controllers\ApiBannerController;
 use App\Http\Controllers\ApiSubscribeController;
 use App\Http\Controllers\ApiPageController;
 use App\Http\Controllers\PaymentKapitalController;
+use App\Http\Controllers\ApiPromocodeController;
 use App\Http\Controllers\Voyager\BooksController;
 
 /*
@@ -63,5 +64,5 @@ Route::post('apigetpages', [ApiPageController::class, 'apiGetPages']);
 Route::post('apigetpagebyid', [ApiPageController::class, 'apiGetPageById']);
 Route::post('apigetnewbooks', [ApiBookController::class, 'apiGetNewBooks']);
 Route::post('apiunlikebook', [ApiBookController::class, 'apiUnlikeBook']);
-Route::post('apipromocodeorder', [ApiBookController::class, 'apiPromocodeOrder']);
+Route::post('apipromocodeorder', [ApiPromocodeController::class, 'apiPromocodeOrder']);
 
