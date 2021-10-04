@@ -65,8 +65,9 @@ class Menu extends Model
         if (!isset($menu)) {
             return false;
         }
-
-        // event(new MenuDisplay($menu));  bu hisseni ozum komente aldim
+        //bu hisseni ozum komente aldim
+       
+        // event(new MenuDisplay($menu)); 
 
         // Convert options array into object
         $options = (object) $options;
